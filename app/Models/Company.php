@@ -5,23 +5,26 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class User
+ * Class Company
  *
  * @property int $id
+ * @property string $uuid
  * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property string|null $remember_token
+ * @property string $website
+ * @property Carbon $start_date
+ * @property Carbon|null $end_date
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Collection|Product[] $products
  */
-class User extends Model
+class Company extends Model
 {
-    protected $table = 'users';
+    protected $table = 'companies';
 
     /**
      * @var string
@@ -39,11 +42,11 @@ class User extends Model
      */
     protected $fillable = [
         'id',
+        'uuid',
         'name',
-        'email',
-        'email_verified_at',
-        'password',
-        'remember_token',
+        'website',
+        'start_date',
+        'end_date',
     ];
 
     /**
@@ -54,10 +57,6 @@ class User extends Model
     protected $attributes = [
     ];
 
-    protected $hidden = [
-        'password',
-    ];
-
     /**
      * @return array<string, string>
      */
@@ -65,13 +64,21 @@ class User extends Model
     {
         return [
             'id' => 'integer',
+            'uuid' => 'string',
             'name' => 'string',
-            'email' => 'string',
-            'email_verified_at' => 'datetime',
-            'password' => 'string',
-            'remember_token' => 'string',
+            'website' => 'string',
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    /**
+     * @return HasMany<Product, $this>
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'company_id', 'uuid');
     }
 }

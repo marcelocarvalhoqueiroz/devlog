@@ -6,22 +6,22 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class User
+ * Class ExperienceTech
  *
  * @property int $id
- * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property string|null $remember_token
+ * @property string $experience_id
+ * @property string $tech_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Experience $experience
+ * @property Tech $tech
  */
-class User extends Model
+class ExperienceTech extends Model
 {
-    protected $table = 'users';
+    protected $table = 'experience_tech';
 
     /**
      * @var string
@@ -39,11 +39,8 @@ class User extends Model
      */
     protected $fillable = [
         'id',
-        'name',
-        'email',
-        'email_verified_at',
-        'password',
-        'remember_token',
+        'experience_id',
+        'tech_id',
     ];
 
     /**
@@ -54,10 +51,6 @@ class User extends Model
     protected $attributes = [
     ];
 
-    protected $hidden = [
-        'password',
-    ];
-
     /**
      * @return array<string, string>
      */
@@ -65,13 +58,26 @@ class User extends Model
     {
         return [
             'id' => 'integer',
-            'name' => 'string',
-            'email' => 'string',
-            'email_verified_at' => 'datetime',
-            'password' => 'string',
-            'remember_token' => 'string',
+            'experience_id' => 'string',
+            'tech_id' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    /**
+     * @return BelongsTo<Experience, $this>
+     */
+    public function experience(): BelongsTo
+    {
+        return $this->belongsTo(Experience::class, 'experience_id', 'uuid');
+    }
+
+    /**
+     * @return BelongsTo<Tech, $this>
+     */
+    public function tech(): BelongsTo
+    {
+        return $this->belongsTo(Tech::class, 'tech_id', 'uuid');
     }
 }
