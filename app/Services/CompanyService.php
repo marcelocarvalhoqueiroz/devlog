@@ -18,7 +18,7 @@ class CompanyService {
         return $company;
     }
 
-    public function update(array $data, $id): Company {
+    public function update(array $data, string $id): Company {
         $company = Company::where('uuid', $id)->firstOrFail();
         $company->update($data);
         return $company;
@@ -39,7 +39,7 @@ class CompanyService {
         return $companies;
     }
 
-    public function delete(string $id){
+    public function delete(string $id): void{
         $company = Company::where('uuid', $id)->firstOrFail();
         $company->delete();
     }
