@@ -83,7 +83,7 @@ class Tech extends Model
      */
     public function experienceTechExperiences(): BelongsToMany
     {
-        return $this->belongsToMany(Experience::class, 'experience_tech', 'id', 'id')
+        return $this->belongsToMany(Experience::class, 'experience_tech', 'tech_id', 'experience_id', 'uuid', 'uuid')
             ->withPivot('experience_id', 'tech_id')
             ->withTimestamps();
     }
