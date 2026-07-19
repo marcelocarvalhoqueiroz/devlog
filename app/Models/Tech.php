@@ -44,7 +44,7 @@ class Tech extends Model
         'id',
         'uuid',
         'name',
-        'iconurl',
+        'iconUrl',
     ];
 
     /**
